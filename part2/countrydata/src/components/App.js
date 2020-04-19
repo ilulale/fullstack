@@ -3,26 +3,31 @@ import axios from 'axios'
 
 
 const Showcountry=({newName,countries})=>{
+  const Show = ({entry}) =>{
+    return(
+      <div>
+        <h1>{entry.name}</h1>
+        <p>Capital : {entry.capital} <br/>
+        Population : {entry.population}</p>
+        <h2>Languages</h2>
+        <ul>
+        {entry.languages.map(lang=><li key={lang.name}>{lang.name}</li>)}
+        </ul>
+        <img src={entry.flag} width='300' height='200'/>
+      </div>
+    )
+  }
   const result = countries.filter(cnt=>cnt.name.toLowerCase().includes(newName))
   if(result.length<9){
     if(result.length===1){
       return(
-        <div>
-          <h1>{result[0].name}</h1>
-          <p>Capital : {result[0].capital} <br/>
-          Population : {result[0].population}</p>
-          <h2>Languages</h2>
-          <ul>
-          {result[0].languages.map(lang=><li>{lang.name}</li>)}
-          </ul>
-          <img src={result[0].flag} width='300' height='200'/>
-        </div>
+        <Show entry={result[0]} />
       )
     }
     else{
       return(
         <div>
-          {result.map(res=><p>{res.name}</p>)}
+          {result.map(res=><p key={res.name}>{res.name}</p>)}
         </div>
       )
     }
