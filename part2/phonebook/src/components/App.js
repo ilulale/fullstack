@@ -26,6 +26,10 @@ const App = () => {
       window.alert(`${newName} already exists`)}
     else{
       setPersons(persons.concat(phoneObject))
+      axios.post('http://localhost:3001/persons',phoneObject)
+      .then(response=>{
+          window.alert(`${phoneObject.name} added to db`)
+      })
       setNewName('')
       setNewNumber('')
     }
