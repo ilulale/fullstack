@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Phonebook from './Phonebook'
 import phoneService from './services/phones'
 import Form from './Form'
 
@@ -7,6 +6,7 @@ const App = () => {
   const [persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+
 
   useEffect(()=>{
     phoneService
@@ -46,6 +46,20 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+
+  const Phonebook=({name,number,did})=>{
+    return(
+        <p>{name} {number} 
+        <button onClick={()=>ohrio(did)}>delete</button></p>
+    )
+}
+
+const ohrio = delid =>{
+    phoneService
+    .delrio(delid)
+    .then(window.alert('deleted!'))
+    setPersons(persons.filter(person=>person.id!==delid))
+}
 
   return (
     <div>
