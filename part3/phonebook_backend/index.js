@@ -62,13 +62,20 @@ const genId =()=>{
 
 app.post('/api/persons', (req, res) => {
   const person = req.body
-  if (person.name&&person.number) {
-    person.id=genId(persons)
-    persons = persons.concat(person)
-    res.json(person)
+  const chkname=person.name
+  console.log(persons.some(e1=>e1.name===chkname))
+  if (persons.some(e1=>e1.name===chkname)) {
+    res.status(406).send('Name already exists')    
   }else{
-    res.status(406).send('Data incomplete')
+    if (person.name&&person.number) {
+      person.id=genId(persons)
+      persons = persons.concat(person)
+      res.json(person)
+    }else{
+      res.status(406).send('Data incomplete')
+    }
   }
+
 })
 
 const PORT = 3001
