@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     {
         "name": "Dan Abramov",
@@ -42,6 +44,31 @@ app.get('/api/persons/:id',(req,res) => {
 
 app.get('/api/persons', (req, res) => {
   res.json(persons)
+})
+
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  persons = persons.filter(person => person.id !== id)
+
+  res.status(204).end()
+})
+
+const genId =()=>{
+  const maxId = persons.length > 0
+  ? Math.floor(Math.random() * (100 - persons.length) + persons.length)
+  :0
+  return maxId+1
+}
+
+app.post('/api/persons', (req, res) => {
+  const person = req.body
+  if (person.name&&person.number) {
+    person.id=genId(persons)
+    persons = persons.concat(person)
+    res.json(person)
+  }else{
+    res.status(406).send('Data incomplete')
+  }
 })
 
 const PORT = 3001
